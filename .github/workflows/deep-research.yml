@@ -5,7 +5,11 @@ on:
     # Runs every Monday at 9:00 AM UTC
     - cron: '0 9 * * 1'
   workflow_dispatch: # Allows manual trigger from GitHub UI
-
+  
+permissions:
+  id-token: write
+  contents: read
+  
 jobs:
   run-research:
     runs-on: ubuntu-latest
