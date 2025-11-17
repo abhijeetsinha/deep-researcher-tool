@@ -3,8 +3,8 @@
 # azure-monitor-opentelemetry 
 
 azure-functions
-azure-ai-projects
+azure-ai-projects==1.1.0b4
 azure-identity
-azure-ai-agents
+azure-ai-agents==1.2.0b6
 python-dotenv
 requests
