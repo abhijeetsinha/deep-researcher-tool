@@ -46,6 +46,10 @@ jobs:
         echo "EMAIL_BEARER_TOKEN=${{ secrets.EMAIL_BEARER_TOKEN }}" >> .env
         echo "EMAIL_SENDER=${{ secrets.EMAIL_SENDER }}" >> .env
         echo "EMAIL_RECIPIENT=${{ secrets.EMAIL_RECIPIENT }}" >> .env
+        echo "MS_CLIENT_ID=${{ secrets.MS_CLIENT_ID }}" >> .env
+        echo "MS_CLIENT_SECRET=${{ secrets.MS_CLIENT_SECRET }}" >> .env
+        echo "MS_TENANT_ID=${{ secrets.MS_TENANT_ID }}" >> .env
+        echo "SENDER_EMAIL=${{ secrets.SENDER_EMAIL }}" >> .env
     
     - name: Run Deep Research Agent
       run: python deepresearchagent.py
