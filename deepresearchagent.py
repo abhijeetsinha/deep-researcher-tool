@@ -13,7 +13,7 @@ load_dotenv()
 tenant_id = os.getenv('MS_TENANT_ID')
 client_id = os.getenv('MS_CLIENT_ID')
 client_secret = os.getenv('MS_CLIENT_SECRET')
-sender_email = os.getenv('SENDER_EMAIL')
+email_sender = os.getenv('EMAIL_SENDER')
 
 def get_token():
     url = f"https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/token"
@@ -39,6 +39,9 @@ def send_email(file_path):
     # Remove citation markers like 【70:3†source】
     content = re.sub(r'【\d+:\d+†source】', '', content)
     
+    # Parse multiple recipients from comma-separated list
+    recipients = [email.strip() for email in os.environ["EMAIL_RECIPIENT"].split(",")]
+    
     # Create email
     email_data = {
         "message": {
@@ -48,7 +51,7 @@ def send_email(file_path):
                 "content": content
             },
             "toRecipients": [
-                {"emailAddress": {"address": os.environ["EMAIL_RECIPIENT"]}}
+                {"emailAddress": {"address": email}} for email in recipients
             ]
         },
         "saveToSentItems": "true"
@@ -60,7 +63,7 @@ def send_email(file_path):
         "Content-Type": "application/json"
     }
     
-    url = f"https://graph.microsoft.com/v1.0/users/{sender_email}/sendMail"
+    url = f"https://graph.microsoft.com/v1.0/users/{os.environ['EMAIL_SENDER']}/sendMail"
     response = requests.post(url, json=email_data, headers=headers)
     
     if response.status_code == 202:
@@ -112,12 +115,15 @@ def main():
      - Zscaler: https://www.zscaler.com/blogs
      - Zscaler product & insights: https://www.zscaler.com/blogs?type=product-insights
      - Zscaler news: https://www.zscaler.com/blogs?type=company-news
+     - Zscaler press: https://www.zscaler.com/company/news-press
      - Palo Alto Networks: https://www.paloaltonetworks.com/blog/
      - Palo Alto Networks product & services: https://www.paloaltonetworks.com/blog/category/products-and-services/
      - Palo Alto Networks announcements: https://www.paloaltonetworks.com/blog/category/announcement/
+     - Palo Alto Networks press: https://www.paloaltonetworks.com/company/press
      - Netskope: https://www.netskope.com/blog
      - Netskope Announcements: https://www.netskope.com/blog/category/netskope-announcements
      - Netskope Platform Products & Services: https://www.netskope.com/blog/category/platform-products-service
+     - Netskope press: https://www.netskope.com/company/newsroom/press
 
 2. **Analysis Approach**
    - Navigate through the blogs and filter by publication date (last two weeks).
